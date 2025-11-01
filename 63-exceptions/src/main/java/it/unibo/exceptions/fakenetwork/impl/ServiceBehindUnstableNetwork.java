@@ -1,7 +1,7 @@
 package it.unibo.exceptions.fakenetwork.impl;
 
-import it.unibo.exceptions.arithmetic.ArithmeticService;
-import it.unibo.exceptions.fakenetwork.api.NetworkComponent;
+import static it.unibo.exceptions.arithmetic.ArithmeticService.KEYWORDS;
+import static it.unibo.exceptions.arithmetic.ArithmeticUtil.nullIfNumberOrException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
-import static it.unibo.exceptions.arithmetic.ArithmeticService.KEYWORDS;
-import static it.unibo.exceptions.arithmetic.ArithmeticUtil.nullIfNumberOrException;
+import it.unibo.exceptions.arithmetic.ArithmeticService;
+import it.unibo.exceptions.fakenetwork.api.NetworkComponent;
 
 /**
  * A {@link NetworkComponent} mimicking an unstable network.
@@ -57,15 +57,15 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
             commandQueue.add(data);
         } else {
             final var message = data + " is not a valid keyword (allowed: " + KEYWORDS + "), nor is a number";
-            System.out.println(message);
             commandQueue.clear();
             /*
-             * This method, in this point, should throw an IllegalStateException.
-             * Its cause, however, is the previous NumberFormatException.
-             * Always preserve the original stacktrace!
-             *
-             * The previous exceptions must be set as the cause of the new exception
-             */
+            * This method, in this point, should throw an IllegalStateException.
+            * Its cause, however, is the previous NumberFormatException.
+            * Always preserve the original stacktrace!
+            *
+            * The previous exceptions must be set as the cause of the new exception
+            */
+            throw new IllegalArgumentException(message, exceptionWhenParsedAsNumber);
         }
     }
 
