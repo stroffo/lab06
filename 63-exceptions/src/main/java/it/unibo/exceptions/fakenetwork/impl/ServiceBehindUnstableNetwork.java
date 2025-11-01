@@ -25,7 +25,9 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
      * @param failProbability the probability that a network communication fails
      * @param randomSeed random generator seed for reproducibility
      */
-    public ServiceBehindUnstableNetwork(final double failProbability, final int randomSeed) {
+    public ServiceBehindUnstableNetwork(
+        final double failProbability, final int randomSeed
+    ) throws IllegalArgumentException {
         if (failProbability < 0 || failProbability >= 1 ) {
             throw new IllegalArgumentException("The fail probability should be in [0, 1[!");
         }
@@ -77,9 +79,9 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
         }
     }
 
-    private void accessTheNetwork(final String message) throws IOException {
+    private void accessTheNetwork(final String message) throws NetworkException {
         if (randomGenerator.nextDouble() < failProbability) {
-            throw new IOException("Generic I/O error");
+            throw new NetworkException("Generic I/O error");
         }
     }
 
